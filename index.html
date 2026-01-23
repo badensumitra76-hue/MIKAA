@@ -22,21 +22,20 @@
 
     .box {
       width: 85%;
-      max-width: 400px; 
-      padding: 20px;
+      max-width: 380px; 
+      padding: 10px;
       cursor: pointer;
-      /* Memastikan isi box dipaksa lurus kiri */
       display: flex;
       flex-direction: column;
+      /* Menjaga teks tetap lurus di kiri */
       align-items: flex-start; 
     }
 
     #text {
       white-space: pre-line;
-      line-height: 1.8;
+      /* Jarak antar baris dipersempit (tadinya 1.8 jadi 1.4) */
+      line-height: 1.4; 
       font-size: 16px;
-      min-height: 100px;
-      /* Menjamin teks lurus dari kiri */
       text-align: left; 
       width: 100%;
     }
@@ -53,9 +52,8 @@
 
     .hint {
       opacity: 0.3;
-      margin-top: 40px;
-      font-size: 13px;
-      /* Instruksi tap tetap di tengah box */
+      margin-top: 30px;
+      font-size: 12px;
       align-self: center; 
       text-align: center;
     }
@@ -64,8 +62,8 @@
 <body>
 
 <div class="box" onclick="start()">
-  <div id="text">tap di mana saja untuk membuka pesan...</div>
-  <div class="hint">pastikan volume suara aktif</div>
+  <div id="text">tap di mana saja...</div>
+  <div class="hint">pastikan suara aktif</div>
 </div>
 
 <audio id="music">
@@ -73,8 +71,8 @@
 </audio>
 
 <script>
-  const message = `
-selamat ulang tahun ya, aya.
+  // Menghilangkan enter berlebih di dalam teks agar tidak terlalu renggang
+  const message = `selamat ulang tahun ya, aya.
 
 di hari kamu nambah usia ini,
 gua cuma pengen kamu tau
@@ -89,8 +87,7 @@ kamu selalu dikelilingi hal baik,
 orang-orang tulus,
 dan hidup yang bikin kamu tenang.
 
-kamu pantas buat bahagia.
-`;
+kamu pantas buat bahagia.`;
 
   let index = 0;
   let started = false;
@@ -112,7 +109,7 @@ kamu pantas buat bahagia.
       if (index >= message.length) {
         clearInterval(interval);
       }
-    }, 65);
+    }, 60);
   }
 </script>
 
