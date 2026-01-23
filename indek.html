@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Untuk Aya</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: #0f0f0f;
+      color: #f1f1f1;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+
+    .box {
+      max-width: 600px;
+      padding: 20px;
+      cursor: pointer;
+    }
+
+    #text {
+      white-space: pre-line;
+      line-height: 1.8;
+      font-size: 16px;
+    }
+
+    .hint {
+      opacity: 0.5;
+      margin-top: 25px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box" onclick="start()">
+  <div id="text">tap di mana aja untuk membuka pesan</div>
+  <div class="hint"></div>
+</div>
+
+<audio id="music">
+  <source src="lagu.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const message = `
+selamat ulang tahun ya, aya.
+
+di hari kamu nambah usia ini,
+gua cuma pengen kamu tau
+kalo kehadiran kamu pernah berarti banget di hidup gua.
+
+makasih karena pernah hadir,
+pernah nemenin,
+dan pernah jadi bagian dari cerita gua.
+
+semoga di umur kamu yang sekarang,
+kamu selalu dikelilingi hal baik,
+orang-orang tulus,
+dan hidup yang bikin kamu tenang.
+
+kamu pantas buat bahagia.
+`;
+
+  let index = 0;
+  let started = false;
+
+  function start() {
+    if (started) return;
+    started = true;
+
+    // play music
+    const music = document.getElementById("music");
+    music.volume = 0.8;
+    music.play();
+
+    // clear text
+    const textEl = document.getElementById("text");
+    textEl.innerHTML = "";
+
+    // typing effect
+    const interval = setInterval(() => {
+      textEl.innerHTML += message.charAt(index);
+      index++;
+      if (index >= message.length) {
+        clearInterval(interval);
+      }
+    }, 45); // makin kecil makin cepet
+  }
+</script>
+
+</body>
+</html>
+
