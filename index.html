@@ -101,34 +101,37 @@ kamu pantas buat bahagia.`;
   let index = 0;
   let started = false;
 
-  function start() {
+function start() {
     if (started) return;
     started = true;
 
+    // 1. Hilangkan petunjuk tap
     document.getElementById("hintText").style.display = "none";
-    document.getElementById("text").classList.add("align-left");
+    const textEl = document.getElementById("text");
+    textEl.innerHTML = ""; // Layar jadi hitam kosong dulu
 
+    // 2. Putar musik
     const music = document.getElementById("music");
     music.volume = 0.8;
     music.play();
 
-    const textEl = document.getElementById("text");
-    textEl.innerHTML = "";
-
-    const interval = setInterval(() => {
-      textEl.innerHTML += message.charAt(index);
-      index++;
+    // 3. Jeda 1.5 detik baru mulai ngetik
+    setTimeout(() => {
+      textEl.classList.add("align-left"); 
       
-      // Auto-scroll tetap aktif
-      window.scrollTo(0, document.body.scrollHeight);
+      const interval = setInterval(() => {
+        textEl.innerHTML += message.charAt(index);
+        index++;
+        
+        window.scrollTo(0, document.body.scrollHeight);
 
-      if (index >= message.length) {
-        clearInterval(interval);
-      }
-    }, 90);
+        if (index >= message.length) {
+          clearInterval(interval);
+        }
+      }, 90);
+    }, 1500); 
   }
 </script>
 
 </body>
 </html>
-
