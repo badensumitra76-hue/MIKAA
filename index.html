@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>rexxas design</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
   <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
@@ -22,7 +23,7 @@
     .box {
       width: 100vw;   
       min-height: 100vh;
-      padding: 60px 20px;
+      padding: 60px 20px; /* Ruang lebih lega agar tidak mepet layar */
       cursor: pointer;
       display: flex;
       flex-direction: column;
@@ -31,17 +32,12 @@
       box-sizing: border-box;
     }
 
-    /* Gaya untuk Kue & Lilin */
-    .cake {
-      font-size: 50px;
-      margin-bottom: 10px;
-      transition: all 0.5s ease;
-    }
-
     #text {
+      /* Menggunakan pre-wrap agar Enter manual kamu tetap terbaca 
+         tapi tetap rapi di layar HP yang sempit */
       white-space: pre-wrap; 
-      line-height: 1.5; 
-      font-size: 14px; 
+      line-height: 1.3; 
+      font-size: 14px; /* Ukuran ini paling aman untuk HP */
       width: 90%;
       max-width: 450px;
       text-align: center;
@@ -73,9 +69,8 @@
 <body>
 
 <div id="container" class="box" onclick="start()">
-  <div id="cakeIcon" class="cake">🕯️<br>🎂</div>
-  <div id="text">tap lilinnya untuk tiup...</div>
-  <div id="hintText" class="hint">pastikan suara aktif</div>
+  <div id="text">HAI AYA JELEQ</div>
+  <div id="hintText" class="hint">tap dimana aja terserah mba aya</div>
 </div>
 
 <audio id="music">
@@ -83,6 +78,7 @@
 </audio>
 
 <script>
+  // Saya rapikan enter-nya agar pas di layar HP
   const message = `selamat ulang tahun ya, aya.
 
 di hari kamu nambah usia ini,
@@ -105,41 +101,35 @@ kamu pantas buat bahagia.`;
   let index = 0;
   let started = false;
 
-  function start() {
+function start() {
     if (started) return;
     started = true;
 
-    // 1. Lilin seolah-olah mati (ganti emoji lilin jadi asap)
-    document.getElementById("cakeIcon").innerHTML = "💨<br>🎂";
-    document.getElementById("text").innerHTML = "*puf!*";
+    // 1. Hilangkan petunjuk tap
     document.getElementById("hintText").style.display = "none";
+    const textEl = document.getElementById("text");
+    textEl.innerHTML = ""; // Layar jadi hitam kosong dulu
 
     // 2. Putar musik
     const music = document.getElementById("music");
     music.volume = 0.8;
     music.play();
 
-    // 3. Jeda sebentar, lalu buat layar hitam (hapus kue)
+    // 3. Jeda 1.5 detik baru mulai ngetik
     setTimeout(() => {
-      document.getElementById("cakeIcon").style.display = "none";
-      const textEl = document.getElementById("text");
-      textEl.innerHTML = ""; 
-
-      // 4. Jeda lagi baru mulai ngetik pesan
-      setTimeout(() => {
-        textEl.classList.add("align-left"); 
+      textEl.classList.add("align-left"); 
+      
+      const interval = setInterval(() => {
+        textEl.innerHTML += message.charAt(index);
+        index++;
         
-        const interval = setInterval(() => {
-          textEl.innerHTML += message.charAt(index);
-          index++;
-          window.scrollTo(0, document.body.scrollHeight);
+        window.scrollTo(0, document.body.scrollHeight);
 
-          if (index >= message.length) {
-            clearInterval(interval);
-          }
-        }, 90);
-      }, 1000); // Jeda 1 detik setelah kue hilang
-    }, 1500); // Kue tampil "mati" selama 1.5 detik
+        if (index >= message.length) {
+          clearInterval(interval);
+        }
+      }, 90);
+    }, 1500); 
   }
 </script>
 
