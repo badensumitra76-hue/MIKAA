@@ -11,31 +11,34 @@
     body {
       background-color: #0f0f0f;
       color: #f1f1f1;
-      /* Pakai font mesin tik di sini */
+      /* Font mesin tik */
       font-family: 'Courier Prime', monospace; 
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
-      text-align: center;
       overflow: hidden;
     }
 
     .box {
-      max-width: 600px;
+      /* Mengatur lebar kotak pesan */
+      width: 85%;
+      max-width: 400px; 
       padding: 20px;
       cursor: pointer;
+      /* Membuat teks di dalam kotak rata kiri */
+      text-align: left; 
     }
 
     #text {
       white-space: pre-line;
       line-height: 1.8;
-      font-size: 18px;
+      font-size: 17px;
       min-height: 100px;
     }
 
-    /* Efek garis kedap-kedip khas mesin tik */
+    /* Kursor berkedip khas mesin tik */
     #text::after {
       content: "|";
       animation: blink 0.8s infinite;
@@ -48,16 +51,17 @@
 
     .hint {
       opacity: 0.3;
-      margin-top: 25px;
+      margin-top: 40px;
       font-size: 13px;
-      letter-spacing: 1px;
+      text-align: center; /* Tulisan 'tap' tetap di tengah */
+      width: 100%;
     }
   </style>
 </head>
 <body>
 
 <div class="box" onclick="start()">
-  <div id="text">tap di mana aja untuk membuka pesan</div>
+  <div id="text">tap di mana saja untuk membuka pesan...</div>
   <div class="hint">pastikan volume suara aktif</div>
 </div>
 
@@ -92,20 +96,23 @@ kamu pantas buat bahagia.
     if (started) return;
     started = true;
 
+    // Menjalankan Musik
     const music = document.getElementById("music");
     music.volume = 0.8;
     music.play();
 
+    // Menghapus teks instruksi awal
     const textEl = document.getElementById("text");
     textEl.innerHTML = "";
 
+    // Memulai efek mengetik
     const interval = setInterval(() => {
       textEl.innerHTML += message.charAt(index);
       index++;
       if (index >= message.length) {
         clearInterval(interval);
       }
-    }, 60); // Kecepatan ngetik (60ms)
+    }, 65); // Kecepatan ngetik
   }
 </script>
 
