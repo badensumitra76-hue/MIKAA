@@ -7,24 +7,23 @@
   
   <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 
-  #text {
-      white-space: pre-line;
-      line-height: 1.3; 
-      /* Ukuran 15px biasanya pas untuk layar HP agar tidak cepat patah barisnya */
-      font-size: 15px; 
-      /* Kita buat lebarnya maksimal (95%) supaya teks punya ruang luas ke samping */
-      width: 95%;
-      max-width: 500px; 
-      text-align: center;
-      margin-bottom: 50px; 
-      /* Menghilangkan jeda kata agar tidak terpotong di tengah huruf */
-      word-break: keep-all; 
+  <style>
+    body {
+      background-color: #0f0f0f;
+      color: #f1f1f1;
+      font-family: 'Courier Prime', monospace; 
+      margin: 0;
+      overflow-y: auto; 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
     }
 
     .box {
       width: 100vw;   
-      min-height: 100vh; /* Menggunakan min-height agar box bisa memanjang ke bawah */
-      padding: 40px 20px; /* Memberi ruang di atas dan bawah agar teks tidak nempel layar */
+      min-height: 100vh;
+      padding: 60px 20px; /* Ruang lebih lega agar tidak mepet layar */
       cursor: pointer;
       display: flex;
       flex-direction: column;
@@ -34,15 +33,17 @@
     }
 
     #text {
-  /* Ganti pre-line menjadi pre */
-  white-space: pre; 
-  line-height: 1.4; 
-  font-size: 14px; 
-  width: 100%;
-  /* Menambahkan scroll horizontal jika kalimat terlalu panjang ke samping */
-  overflow-x: auto; 
-  text-align: left;
-}
+      /* Menggunakan pre-wrap agar Enter manual kamu tetap terbaca 
+         tapi tetap rapi di layar HP yang sempit */
+      white-space: pre-wrap; 
+      line-height: 1.3; 
+      font-size: 14px; /* Ukuran ini paling aman untuk HP */
+      width: 90%;
+      max-width: 450px;
+      text-align: center;
+      word-wrap: break-word;
+    }
+
     .align-left {
       text-align: left !important;
     }
@@ -77,29 +78,18 @@
 </audio>
 
 <script>
-  // Kamu bisa masukkan kata-kata sepanjang apa pun di sini
+  // Saya rapikan enter-nya agar pas di layar HP
   const message = `selamat ulang tahun ya, aya.
 
 di hari kamu nambah usia ini,
 gua cuma pengen kamu tau
-kalo kehadiran kamu pernah berarti banget di hidup gua.
+kalo kehadiran kamu pernah
+berarti banget di hidup gua.
 
 makasih karena pernah hadir,
 pernah nemenin,
-dan pernah jadi bagian dari cerita gua.
-
-semoga di umur kamu yang sekarang,
-kamu selalu dikelilingi hal baik,
-orang-orang tulus,
-dan hidup yang bikin kamu tenang.
-
-di hari kamu nambah usia ini,
-gua cuma pengen kamu tau
-kalo kehadiran kamu pernah berarti banget di hidup gua.
-
-makasih karena pernah hadir,
-pernah nemenin,
-dan pernah jadi bagian dari cerita gua.
+dan pernah jadi bagian
+dari cerita gua.
 
 semoga di umur kamu yang sekarang,
 kamu selalu dikelilingi hal baik,
@@ -129,7 +119,7 @@ kamu pantas buat bahagia.`;
       textEl.innerHTML += message.charAt(index);
       index++;
       
-      // Auto-scroll ke bawah saat teks sedang diketik
+      // Auto-scroll tetap aktif
       window.scrollTo(0, document.body.scrollHeight);
 
       if (index >= message.length) {
@@ -141,8 +131,3 @@ kamu pantas buat bahagia.`;
 
 </body>
 </html>
-
-
-
-
-
