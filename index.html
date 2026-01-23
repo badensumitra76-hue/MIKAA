@@ -8,69 +8,63 @@
   <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-  @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
+    body {
+      background-color: #0f0f0f;
+      color: #f1f1f1;
+      font-family: 'Courier Prime', monospace; 
+      margin: 0;
+      /* Mengizinkan scroll jika teks panjang */
+      overflow-y: auto; 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
 
-  body {
-    background-color: #0f0f0f;
-    color: #f1f1f1;
-    font-family: 'Courier Prime', monospace; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    overflow: hidden;
-  }
+    .box {
+      width: 100vw;   
+      min-height: 100vh; /* Menggunakan min-height agar box bisa memanjang ke bawah */
+      padding: 40px 20px; /* Memberi ruang di atas dan bawah agar teks tidak nempel layar */
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center; 
+      align-items: center;     
+      box-sizing: border-box;
+    }
 
-  .box {
-    /* Bagian ini yang diubah agar bisa di-tap di mana saja */
-    width: 100vw;   /* Memenuhi lebar layar */
-    height: 100vh;  /* Memenuhi tinggi layar */
-    padding: 20px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Teks tetap di tengah layar secara vertikal */
-    align-items: center;     /* Teks tetap di tengah layar secara horizontal */
-    box-sizing: border-box;
-  }
+    #text {
+      white-space: pre-line;
+      line-height: 1.4; 
+      font-size: 16px;
+      width: 85%;
+      max-width: 380px;
+      text-align: center;
+      /* Menghindari teks terpotong di bagian bawah */
+      margin-bottom: 50px; 
+    }
 
-  #text {
-    white-space: pre-line;
-    line-height: 1.2; 
-    font-size: 16px;
-    width: 85%;
-    max-width: 380px;
-    text-align: center; /* Awalnya center */
-    transition: all 0.3s ease;
-  }
+    .align-left {
+      text-align: left !important;
+    }
 
-  /* Class untuk merata kirikan teks saat mulai */
-  .align-left {
-    text-align: left !important;
-  }
+    #text::after {
+      content: "|";
+      animation: blink 0.8s infinite;
+    }
 
-  .box-left {
-    align-items: center !important; /* Box tetap di tengah, tapi isinya nanti rata kiri */
-  }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
 
-  #text::after {
-    content: "|";
-    animation: blink 0.8s infinite;
-  }
-
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
-
-  .hint {
-    opacity: 0.3;
-    margin-top: 20px;
-    font-size: 12px;
-    text-align: center;
-  }
-</style>
+    .hint {
+      opacity: 0.3;
+      margin-top: 20px;
+      font-size: 12px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
 
@@ -84,6 +78,7 @@
 </audio>
 
 <script>
+  // Kamu bisa masukkan kata-kata sepanjang apa pun di sini
   const message = `selamat ulang tahun ya, aya.
 
 di hari kamu nambah usia ini,
@@ -99,32 +94,6 @@ kamu selalu dikelilingi hal baik,
 orang-orang tulus,
 dan hidup yang bikin kamu tenang.
 
-semoga di umur kamu yang sekarang,
-kamu selalu dikelilingi hal baik,
-orang-orang tulus,
-dan hidup yang bikin kamu tenang.
-
-di hari kamu nambah usia ini,
-gua cuma pengen kamu tau
-kalo kehadiran kamu pernah berarti banget di hidup gua.
-
-makasih karena pernah hadir,
-pernah nemenin,
-dan pernah jadi bagian dari cerita gua.
-
-semoga di umur kamu yang sekarang,
-kamu selalu dikelilingi hal baik,
-orang-orang tulus,
-dan hidup yang bikin kamu tenang.
-
-semoga di umur kamu yang sekarang,
-kamu selalu dikelilingi hal baik,
-orang-orang tulus,
-dan hidup yang bikin kamu tenang.
-
-
-
-
 kamu pantas buat bahagia.`;
 
   let index = 0;
@@ -134,11 +103,7 @@ kamu pantas buat bahagia.`;
     if (started) return;
     started = true;
 
-    // Menghilangkan hint suara
     document.getElementById("hintText").style.display = "none";
-
-    // Mengubah posisi box dan teks menjadi rata kiri
-    document.getElementById("container").classList.add("box-left");
     document.getElementById("text").classList.add("align-left");
 
     const music = document.getElementById("music");
@@ -151,17 +116,17 @@ kamu pantas buat bahagia.`;
     const interval = setInterval(() => {
       textEl.innerHTML += message.charAt(index);
       index++;
+      
+      // Auto-scroll ke bawah saat teks sedang diketik
+      window.scrollTo(0, document.body.scrollHeight);
+
       if (index >= message.length) {
         clearInterval(interval);
       }
-    }, 90);
+    }, 80);
   }
 </script>
 
 </body>
 </html>
-
-
-
-
 
