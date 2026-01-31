@@ -21,9 +21,9 @@
     }
 
     .box {
-      width: 100%;
-      /* Padding kiri-kanan besar (15%) bikin teks otomatis ngumpul di tengah */
-      padding: 60px 15%; 
+      /* KUNCI UTAMA: Lebar maksimal 320px supaya teks ngumpul di tengah HP */
+      width: 320px; 
+      min-height: 100vh;
       cursor: pointer;
       display: flex;
       flex-direction: column;
@@ -34,17 +34,16 @@
     }
 
     #text {
-      /* Menggunakan 'normal' agar teks menyesuaikan layar HP secara otomatis */
-      white-space: normal; 
-      line-height: 2.0; 
-      font-size: 14px; 
+      white-space: pre-wrap; 
+      line-height: 2.2; /* Jarak baris lega sesuai gambar */
+      font-size: 13px; 
       width: 100%;
       transition: opacity 0.8s ease;
     }
 
+    /* Rata kiri untuk surat ulang tahun */
     .align-left {
       text-align: left !important;
-      white-space: pre-wrap !important; /* Pas ngetik surat baru pake pre-wrap lagi */
     }
 
     .typing::after {
@@ -68,7 +67,31 @@
 <body>
 
 <div id="container" class="box" onclick="start()">
-  <div id="text">hallo kak. maaf ganggu waktu nya yaa. kenalin aku mika vincenzo, utusan nya maul. ini mutiara kanjeng ratu aya yaa? kemarin maul titip pesan katanya buat kaka, malu katanya. pake malu segala loh, padahal biasanya juga malu malu in loh kak haduh, mana suka so kull lagi, kull dari hongkong kali. maaf kak mika lupa nyampein pesan nya kemarin. mika lagi sibuk latihan masak telor buat ikut master sepp, suka aga gosong dikit, tapi masih bisa sih. bisa di sembur sepp juna nanti hehe. sekali lagi maaf yaa mika ganggu waktu nya, gara gara maul nih dasar.</div>
+  <div id="text">hallo kak. maaf ganggu waktu nya
+yaa.
+kenalin aku mika vincenzo,
+utusan nya maul.
+
+ini mutiara kanjeng ratu aya yaa?
+kemarin maul
+titip pesan katanya buat kaka,
+malu katanya.
+
+pake malu segala loh, padahal
+biasanya juga
+malu malu in loh kak haduh, mana
+suka so kull lagi,
+kull dari hongkong kali.
+
+maaf kak mika lupa nyampein pesan
+nya kemarin.
+mika lagi sibuk latihan masak telor
+buat ikut master sepp,
+suka aga gosong dikit,
+tapi masih bisa sih.
+
+bisa di sembur sepp juna nanti
+hehe.</div>
 
   <div id="hintText" class="hint">tap dimana aja yaa terserah kaka</div>
 </div>
@@ -80,10 +103,10 @@
 <script>
   const introTexts = [
     "hallo mba aya jeleqq",
-    "jangan jeleq deh kasian, mba aya cantik ajahh",
+    "jangan jeleq deh kasian,\nmba aya cantik ajahh",
     "mba aya cantik apa kabar yaaa?",
-    "pasti hari hari nya nya selalu menyenangkan kan?",
-    "oiyaa kemaren gua mau bilang ini tapi lupa dikit."
+    "pasti hari hari nya nya\nselalu menyenangkan kan?",
+    "oiyaa kemaren gua mau bilang\nini tapi lupa dikit."
   ];
 
   const message = `selamat ulang tahun ya, aya.
@@ -139,20 +162,4 @@ kamu pantas buat bahagia.`;
     textEl.style.opacity = 1;
     textEl.classList.add("align-left", "typing");
     
-    const interval = setInterval(() => {
-      textEl.innerHTML += message.charAt(index);
-      index++;
-      window.scrollTo(0, document.body.scrollHeight);
-      if (index >= message.length) {
-        clearInterval(interval);
-      }
-    }, 90);
-  }
-
-  function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-</script>
-
-</body>
-</html>
+    const interval = setInterval(()
