@@ -41,7 +41,7 @@
       transition: opacity 0.8s ease;
     }
 
-    /* Rata kiri khusus saat pesan panjang diketik */
+    /* Rata kiri khusus saat pesan panjang ultah diketik nanti */
     .align-left {
       text-align: left !important;
     }
@@ -67,7 +67,24 @@
 <body>
 
 <div id="container" class="box" onclick="start()">
-  <div id="text">HAI AYA JELEQ</div>
+  <div id="text">hallo kak. maaf ganggu waktu nya yaa.
+kenalin aku mika vincenzo, utusan nya maul.
+
+ini mutiara kanjeng ratu aya yaa? kemarin maul
+titip pesan katanya buat kaka, malu katanya.
+
+pake malu segala loh, orang biasanya juga
+malu malu in loh kak haduh, mana suka so kull lagi,
+kull dari hongkong kali dia.
+
+maaf ya kak mika lupa nyampein pesan nya kemarin.
+mika lagi sibuk latihan masak telor buat ikut
+master sepp hehe, suka aga gosong dikit
+tapi masih oke sih kak.
+
+paling di sembur sepp juna nanti. sekali lagi
+maaf yaa mika ganggu waktu nya, gara gara maul nih dasar.</div>
+
   <div id="hintText" class="hint">tap dimana aja yaa terserah kaka</div>
 </div>
 
@@ -76,10 +93,86 @@
 </audio>
 
 <script>
-  // 1. Kalimat pembuka yang muncul bergantian
+  // 1. Kalimat pembuka setelah di-tap (muncul bergantian)
   const introTexts = [
     "hallo mba aya jeleqq",
     "jangan jeleq deh kasian, mba aya cantik ajahh",
     "mba aya cantik apa kabar yaaa?",
     "pasti hari hari nya nya selalu menyenangkan kan? yaaa kannn?",
-    "oiyaa kemaren gua mau bilang
+    "oiyaa kemaren gua mau bilang ini tapi lupa dikit."
+  ];
+
+  // 2. Pesan rahasia ulang tahun (diketik gaya mesin tik)
+  const message = `selamat ulang tahun ya, aya.
+
+di hari kamu nambah usia ini,
+gua cuma pengen kamu tau
+kalo kehadiran kamu pernah
+berarti banget di hidup gua.
+
+makasih karena pernah hadir,
+pernah nemenin,
+dan pernah jadi bagian
+dari cerita gua.
+
+semoga di umur kamu yang sekarang,
+kamu selalu dikelilingi hal baik,
+orang-orang tulus,
+dan hidup yang bikin kamu tenang.
+
+kamu pantas buat bahagia.`;
+
+  let index = 0;
+  let started = false;
+
+  async function start() {
+    if (started) return;
+    started = true;
+
+    const textEl = document.getElementById("text");
+    const hintEl = document.getElementById("hintText");
+    const music = document.getElementById("music");
+
+    hintEl.style.display = "none";
+    
+    // Efek Musik Fade In
+    music.volume = 0;
+    music.play();
+    let volIn = setInterval(() => {
+      if (music.volume < 0.8) music.volume += 0.05;
+      else clearInterval(volIn);
+    }, 200);
+
+    // --- SEQUENCE PEMBUKA ---
+    for (let quote of introTexts) {
+      textEl.style.opacity = 0; 
+      await sleep(800);
+      textEl.innerHTML = quote;
+      textEl.style.opacity = 1; 
+      await sleep(2000); 
+      textEl.style.opacity = 0; 
+      await sleep(800);
+    }
+
+    // --- MULAI SURAT UTAMA ---
+    textEl.innerHTML = "";
+    textEl.style.opacity = 1;
+    textEl.classList.add("align-left", "typing");
+    
+    const interval = setInterval(() => {
+      textEl.innerHTML += message.charAt(index);
+      index++;
+      window.scrollTo(0, document.body.scrollHeight);
+      if (index >= message.length) {
+        clearInterval(interval);
+      }
+    }, 90);
+  }
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+</script>
+
+</body>
+</html>
