@@ -22,8 +22,8 @@
 
     .box {
       width: 100%;
-      /* Penjepit teks: 12% dari lebar layar HP kiri & kanan */
-      padding: 40px 12%; 
+      max-width: 400px; /* Menjaga teks tetap di tengah secara konsisten */
+      padding: 40px 10%; 
       cursor: pointer;
       display: flex;
       flex-direction: column;
@@ -34,8 +34,7 @@
     }
 
     #text {
-      /* Biarkan sistem yang mengatur baris agar rapi di layar masing-masing */
-      white-space: normal; 
+      white-space: pre-wrap; 
       line-height: 2.0; 
       font-size: 14px; 
       width: 100%;
@@ -44,7 +43,6 @@
 
     .align-left {
       text-align: left !important;
-      white-space: pre-wrap !important; 
     }
 
     .typing::after {
@@ -61,13 +59,26 @@
       opacity: 0.3;
       margin-top: 40px;
       font-size: 11px;
+      text-align: center;
     }
   </style>
 </head>
 <body>
 
 <div id="container" class="box" onclick="start()">
-  <div id="text">hallo kak. maaf ganggu waktu nya yaa. kenalin aku mika vincenzo, utusan nya maul. ini mutiara kanjeng ratu aya yaa? kemarin maul titip pesan katanya buat kaka, malu katanya. pake malu segala loh, padahal biasanya juga malu malu in loh kak haduh, mana suka so kull lagi, kull dari hongkong kali. maaf kak mika lupa nyampein pesan nya kemarin. mika lagi sibuk latihan masak telor buat ikut master sepp, suka aga gosong dikit, tapi masih bisa sih. bisa di sembur sepp juna nanti hehe. sekali lagi maaf yaa mika ganggu waktu nya, gara gara maul nih dasar.</div>
+  <div id="text">hallo kak. maaf ganggu waktu nya yaa.
+kenalin aku mika vincenzo, utusan nya maul.
+
+ini mutiara kanjeng ratu aya yaa? kemarin maul
+titip pesan katanya buat kaka, malu katanya.
+pake malu segala loh, padahal biasanya juga
+malu malu in loh kak haduh, mana suka so kull lagi,
+kull dari hongkong kali.
+
+maaf kak mika lupa nyampein pesan nya kemarin.
+mika lagi sibuk latihan masak telor buat ikut
+master sepp, suka aga gosong dikit, tapi masih bisa sih.
+bisa di sembur sepp juna nanti hehe.</div>
 
   <div id="hintText" class="hint">tap dimana aja yaa terserah kaka</div>
 </div>
@@ -77,31 +88,36 @@
 </audio>
 
 <script>
-  // Muncul cuma 3 kali seperti permintaan awal kamu
+  // Kalimat pendek yang muncul bergantian setelah tap
   const introTexts = [
     "hallo mba aya jeleqq",
     "mba aya cantik apa kabar yaaa?",
     "oiyaa kemaren mau bilang ini tapi lupa dikit."
   ];
 
-  const message = `selamat ulang tahun ya, aya.
+  // PESAN UTAMA (Semua pesan dari Mika Vincenzo yang ingin kamu sampaikan)
+  const message = `hallo kak. maaf ganggu waktu nya yaa.
+kenalin aku mika vincenzo, utusan nya maul.
 
-di hari kamu nambah usia ini,
-gua cuma pengen kamu tau
-kalo kehadiran kamu pernah
-berarti banget di hidup gua.
+ini mutiara kanjeng ratu aya yaa? 
+kemarin maul titip pesan katanya buat kaka, 
+malu katanya.
 
-makasih karena pernah hadir,
-pernah nemenin,
-dan pernah jadi bagian
-dari cerita gua.
+pake malu segala loh, orang biasanya juga 
+malu maluin loh kak haduh, mana suka so kull lagi, 
+kull dari hongkong kali dia.
 
-semoga di umur kamu yang sekarang,
-kamu selalu dikelilingi hal baik,
-orang-orang tulus,
-dan hidup yang bikin kamu tenang.
+maaf ya kak mika lupa nyampein pesan nya kemarin. 
+mika lagi sibuk latihan masak telor buat ikut 
+master sepp hehe, suka aga gosong dikit 
+tapi masih oke sih kak.
 
-kamu pantas buat bahagia.`;
+paling di sembur sepp juna nanti. 
+sekali lagi maaf yaa mika ganggu waktu nya, 
+gara gara maul nih dasar.
+
+oiya, selamat ulang tahun ya, aya.
+semoga bahagia selalu!`;
 
   let index = 0;
   let started = false;
@@ -116,6 +132,7 @@ kamu pantas buat bahagia.`;
 
     hintEl.style.display = "none";
     
+    // Musik Fade In
     music.volume = 0;
     music.play();
     let volIn = setInterval(() => {
@@ -123,7 +140,7 @@ kamu pantas buat bahagia.`;
       else clearInterval(volIn);
     }, 200);
 
-    // Sequence 3 kalimat pembuka
+    // Jalankan kalimat pembuka
     for (let quote of introTexts) {
       textEl.style.opacity = 0; 
       await sleep(800);
@@ -134,6 +151,7 @@ kamu pantas buat bahagia.`;
       await sleep(800);
     }
 
+    // Ketik otomatis pesan lengkap
     textEl.innerHTML = "";
     textEl.style.opacity = 1;
     textEl.classList.add("align-left", "typing");
@@ -141,7 +159,10 @@ kamu pantas buat bahagia.`;
     const interval = setInterval(() => {
       textEl.innerHTML += message.charAt(index);
       index++;
+      
+      // Auto-scroll supaya teks tidak hilang di bawah layar HP
       window.scrollTo(0, document.body.scrollHeight);
+
       if (index >= message.length) {
         clearInterval(interval);
       }
