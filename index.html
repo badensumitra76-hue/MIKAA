@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>rexxas design</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
@@ -21,8 +21,9 @@
     }
 
     .box {
-      /* KUNCI UTAMA: Lebar maksimal 320px supaya teks ngumpul di tengah HP */
-      width: 320px; 
+      /* Mengunci lebar box sebesar 85% dari lebar layar HP apapun */
+      width: 85vw; 
+      max-width: 400px;
       min-height: 100vh;
       cursor: pointer;
       display: flex;
@@ -35,13 +36,15 @@
 
     #text {
       white-space: pre-wrap; 
-      line-height: 2.2; /* Jarak baris lega sesuai gambar */
-      font-size: 13px; 
-      width: 100%;
-      transition: opacity 0.8s ease;
+      /* Line height pakai angka relatif agar jarak baris ikut menyesuaikan */
+      line-height: 1.8; 
+      font-size: 3.8vw; /* Ukuran font otomatis mengecil di HP kecil, membesar di HP besar */
     }
 
-    /* Rata kiri untuk surat ulang tahun */
+    @media screen and (min-width: 600px) {
+      #text { font-size: 14px; } /* Untuk tampilan laptop agar tidak kegedean */
+    }
+
     .align-left {
       text-align: left !important;
     }
@@ -58,7 +61,7 @@
 
     .hint {
       opacity: 0.3;
-      margin-top: 40px;
+      margin-top: 5vh;
       font-size: 11px;
       text-align: center;
     }
@@ -67,31 +70,26 @@
 <body>
 
 <div id="container" class="box" onclick="start()">
-  <div id="text">hallo kak. maaf ganggu waktu nya
-yaa.
+  <div id="text">hallo kak. maaf ganggu waktu nya yaa.
 kenalin aku mika vincenzo,
 utusan nya maul.
 
 ini mutiara kanjeng ratu aya yaa?
-kemarin maul
-titip pesan katanya buat kaka,
-malu katanya.
+kemarin maul titip pesan katanya
+buat kaka, malu katanya.
 
-pake malu segala loh, padahal
-biasanya juga
-malu malu in loh kak haduh, mana
+pake malu segala loh, padahal biasanya
+juga malu malu in loh kak haduh, mana
 suka so kull lagi,
 kull dari hongkong kali.
 
 maaf kak mika lupa nyampein pesan
-nya kemarin.
-mika lagi sibuk latihan masak telor
-buat ikut master sepp,
-suka aga gosong dikit,
+nya kemarin. mika lagi sibuk
+latihan masak telor buat ikut
+master sepp, suka aga gosong dikit,
 tapi masih bisa sih.
 
-bisa di sembur sepp juna nanti
-hehe.</div>
+bisa di sembur sepp juna nanti hehe.</div>
 
   <div id="hintText" class="hint">tap dimana aja yaa terserah kaka</div>
 </div>
@@ -162,4 +160,20 @@ kamu pantas buat bahagia.`;
     textEl.style.opacity = 1;
     textEl.classList.add("align-left", "typing");
     
-    const interval = setInterval(()
+    const interval = setInterval(() => {
+      textEl.innerHTML += message.charAt(index);
+      index++;
+      window.scrollTo(0, document.body.scrollHeight);
+      if (index >= message.length) {
+        clearInterval(interval);
+      }
+    }, 90);
+  }
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+</script>
+
+</body>
+</html>
