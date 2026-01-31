@@ -38,14 +38,13 @@
       width: 90%;
       max-width: 450px;
       text-align: center;
-      transition: opacity 1s ease; /* Untuk efek fade in/out */
+      transition: opacity 1s ease; /* Efek halus muncul-hilang */
     }
 
     .align-left {
       text-align: left !important;
     }
 
-    /* Kursor berkedip hanya muncul saat ngetik pesan panjang */
     .typing::after {
       content: "|";
       animation: blink 0.8s infinite;
@@ -76,14 +75,13 @@
 </audio>
 
 <script>
-  // Kalimat pembuka yang muncul bergantian
+  // TIGA KALIMAT PEMBUKA (Bisa kamu ganti isinya di sini)
   const introTexts = [
-    "halo...",
-    "apa kabar?",
-    "ada sesuatu buat kamu."
+    "halo aya...",
+    "apa kabar hari ini?",
+    "ada pesan buat kamu."
   ];
 
-  // Pesan utama (mesin tik)
   const message = `selamat ulang tahun ya, aya.
 
 di hari kamu nambah usia ini,
@@ -124,18 +122,18 @@ kamu pantas buat bahagia.`;
       else clearInterval(volIn);
     }, 200);
 
-    // --- SEQUENCE PEMBUKA ---
+    // --- JALANKAN 3 KALIMAT PEMBUKA ---
     for (let quote of introTexts) {
-      textEl.style.opacity = 0; // Fade out teks sebelumnya
-      await sleep(1000);
+      textEl.style.opacity = 0; 
+      await sleep(800);
       textEl.innerHTML = quote;
-      textEl.style.opacity = 1; // Fade in teks baru
-      await sleep(2000);        // Tahan selama 2 detik
-      textEl.style.opacity = 0; // Fade out lagi
-      await sleep(1000);
+      textEl.style.opacity = 1; 
+      await sleep(2000); // Muncul selama 2 detik
+      textEl.style.opacity = 0; 
+      await sleep(800);
     }
 
-    // --- MULAI PESAN UTAMA (MESIN TIK) ---
+    // --- MULAI SURAT UTAMA ---
     textEl.innerHTML = "";
     textEl.style.opacity = 1;
     textEl.classList.add("align-left", "typing");
@@ -150,7 +148,6 @@ kamu pantas buat bahagia.`;
     }, 90);
   }
 
-  // Fungsi pembantu buat jeda waktu
   function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
