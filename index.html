@@ -13,44 +13,40 @@
       font-family: 'Courier Prime', monospace; 
       margin: 0;
       padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh; /* Menggunakan min-height agar bisa discroll */
+      /* Menghapus overflow: hidden agar bisa di-scroll */
       overflow-x: hidden;
+      min-height: 100vh;
     }
 
     .box {
-      width: 100vw; 
-      min-height: 100vh; /* Agar tetap penuh layar tapi bisa memanjang */
+      width: 100%; 
+      min-height: 100vh; /* Menggunakan min-height agar box bisa memanjang */
       cursor: pointer;
       text-align: center;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: center; /* Teks tetap di tengah saat awal */
       align-items: center;
-      padding: 50px 7.5%; /* Memberi ruang atas bawah untuk scroll */
+      padding: 40px 7.5%;
       box-sizing: border-box;
     }
 
     #text {
       white-space: normal; 
-      line-height: 1.8; /* Spasi antar baris agar lebih enak dibaca */
-      font-size: 14px;
+      line-height: 1.6; /* Diperlebar sedikit agar lebih nyaman di mata */
+      font-size: 15px; /* Sedikit lebih besar untuk layar HP */
       width: 100%;
       max-width: 350px;
       transition: opacity 0.8s ease;
+      text-align: justify; /* Membuat teks rata kiri-kanan agar rapi */
+      word-wrap: break-word;
     }
 
     .align-left {
-      text-align: left !important;
+      text-align: left !important; /* Saat ngetik panjang, pindah ke rata kiri */
       white-space: pre-wrap !important;
-    }
-
-    /* Menghilangkan pemusatan vertikal saat pesan panjang mulai diketik */
-    .start-typing {
-      justify-content: flex-start !important;
-      padding-top: 50px;
+      align-self: flex-start; /* Memastikan container teks menempel ke atas saat panjang */
+      margin-top: 20px;
     }
 
     .typing::after {
@@ -67,11 +63,10 @@
       opacity: 0.3;
       margin-top: 50px;
       font-size: 11px;
-      position: fixed; /* Hint tetap di posisi bawah meski discroll */
+      position: fixed; /* Diubah ke fixed agar tidak mengganggu aliran teks */
       bottom: 5%;
       left: 50%;
       transform: translateX(-50%);
-      pointer-events: none;
     }
   </style>
 </head>
@@ -90,32 +85,24 @@
 <script>
   const introTexts = [
     "hallo mba aya jeleqq",
-    "jangan jeleq deh sekarang kasian,\nmba aya cantik ajahh",
+    "jangan jeleq deh sekarang kasian, mba aya cantik ajahh",
     "mba aya cantik apa kabar yaaa?",
-    "pasti hari-hari nya nya\nselalu menyenangkan kan?",
-    "gua berharap hari-hari nya\nselalu menyenangkan ya mba aya cantikk."
+    "pasti hari-hari nya nya selalu menyenangkan kan?",
+    "gua berharap hari-hari nya selalu menyenangkan ya mba aya cantikk."
   ];
 
-  const message = `selamat ulang tahun yaa mba aya cantik, barakallah fi umrik yaa.
-
-mba aya udah 24 aja loh, 
-kaya baru kemaren 22 deh
+  const message = `selamat ulang tahun yaa mba aya cantik, barakallah fi umrik yaa
+mba aya udah 24 aja loh, kaya baru kemaren 22 deh
 sekarang udah 24 aja nih bocah, 
 bentar lagi punya cucu kaya nya.
 
-semoga mba aya panjang umur, 
-tambah banyak rezekinya, 
-selalu diberi kesehatan
-dan dengan bertambahnya nya umur 
-mba aya sekarang semoga menjadi 
-pribadi yg lebih dewasa dan 
-dipermudahkan jalan untuk 
-hal-hal yang lebih baik buat kedepan nya.
+semoga mba aya panjang umur, tambah banyak rezekinya, selalu diberi kesehatan
+dan dengan bertambahnya nya umur mba aya sekarang semoga menjadi pribadi yg lebih dewasa
+dan dipermudahkan jalan untuk hal-hal yang lebih baik buat kedepan nya.
 
 semoga di umur yang sekarang ini 
-mba aya bahagia terus menerus ya 
-tiap hari nya pokonya harus bahagia, 
-kalo ngga gua tampol lu.
+mba aya bahagia terus menerus ya tiap hari nya
+pokonya harus bahagia, kalo ngga gua tampol lu.
 
 semoga harapan lu, impian lu 
 dan semua keinginan yang lu harepin 
@@ -128,54 +115,41 @@ pokonya mantep bocah satu ini.
 
 tadi gua liat truk molen lucuu, warna kuning
 nanti gua kirim truk molen aja yaa mba aya  
-apa mau ayam warna warni ajahh.
+apa mau ayam warna warni ajahh
 
-salam buat temen-temen lu, bu eva, kak yanti, 
-mba galuh, mba el, mba lulu, mba syarif, dewi, 
-ismail dan temen-temen lu yang lainnya 
-semoga sehat-sehat terus yaa. maafin gua.
+salam buat temen-temen lu, bu eva, kak yanti, mba galuh, mba el, mba lulu, mba syarif, dewi, ismail
+dan temen-temen lu yang lainnya semoga sehat-sehat terus yaa. maafin gua 
 
-buat keluarga lu, ibu lu, ade-ade lu anggun, 
-cece, abang kafa. kafa sekarang udah sma 
-kaya nya yaa?
-ohh sama si adick kecil kesayangan lu, 
-semoga sehat-sehat terus yahh adick kecilllll
-katanya kalo udah besar, nanti mau di beliin 
-kuda balap tuh sama tante ayaa asikkkk.
+buat keluarga lu, ibu lu, ade-ade lu anggun, cece, abang kafa. kafa sekarang udah sma kaya nya yaa?
+ohh sama si adick kecil kesayangan lu, semoga sehat-sehat terus yahh adick kecilllll
+katanya kalo udah besar, nanti mau di beliin kuda balap tuh sama tante ayaa asikkkk
 
 oiyaa kata mika buat caca jangan lupa ganti oli yaa
 namanya sekarang mika vincenzio tau, keren kann?
-kata mika salam buat caca kiyowo ya mba aya, 
-jangan lupa mandi xixixi.
+kata mika salam buat caca kiyowo ya mba aya, jangan lupa mandi xixixi.
 
-mba aya,
+mba aya
 maafin gua ya
 atas kesalahan besar yang gua lakuin.
 gua salah, gua udah ngecewain lu.
-gua sadar, dan gua nerima apa pun 
-konsekuensinya. itu tanggung jawab gua 
-sepenuhnya. udah ahh.
+gua sadar, dan gua nerima apa pun konsekuensinya.
+itu tanggung jawab gua sepenuhnya. udah ahh
 
-lu tauu,
+lu tauu
 gua sekarang jadi suka liat langit tau kalo malem.
 walaupun kita udah ngga bisa komunikasi lagi,
-tapi setidaknya kita masih ngeliat 
-langit yang sama kan?
+tapi setidaknya kita masih ngeliat langit yang sama kan?
 gua cuma berharap, di bawah langit itu,
 lu selalu baik-baik aja. hanya itu aja.
 
-there are feelings never 
-meant to be expressed.
-if one day you feel loved 
-without knowing why,
+there are feelings never meant to be expressed.
+if one day you feel loved without knowing why,
 that was me.
 
-i don’t want you to hear 
-that I love you.
-i want you to feel it, 
-without me ever having to say it.
+i don’t want you to hear that I love you.
+i want you to feel it, without me ever having to say it.
 
-WOPYUUU ❤`;
+WOPYUUU ❤`
 
   let index = 0;
   let started = false;
@@ -211,20 +185,24 @@ WOPYUUU ❤`;
 
     textEl.innerHTML = "";
     textEl.style.opacity = 1;
-    containerEl.classList.add("start-typing"); // Mengubah posisi box ke atas agar scroll enak
     textEl.classList.add("align-left", "typing");
     
+    // Mengubah justify-content ke flex-start agar teks mulai dari atas dan bisa di-scroll
+    containerEl.style.justifyContent = "flex-start";
+
     const interval = setInterval(() => {
       textEl.innerHTML += message.charAt(index);
       index++;
       
-      // Auto-scroll mengikuti ketikan
+      // Auto-scroll ke bawah saat mengetik
       window.scrollTo(0, document.body.scrollHeight);
 
       if (index >= message.length) {
         clearInterval(interval);
+        // Setelah selesai, user bebas scroll ke atas/bawah
+        document.body.style.overflowY = "auto";
       }
-    }, 70); // Sedikit dipercepat kecepatannya agar nyaman dibaca
+    }, 90);
   }
 
   function sleep(ms) {
