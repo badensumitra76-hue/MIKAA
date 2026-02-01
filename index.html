@@ -13,24 +13,25 @@
       font-family: 'Courier Prime', monospace; 
       margin: 0;
       padding: 0;
-      /* Menghilangkan flex center agar konten bisa memanjang ke bawah */
-      display: block; 
-      overflow-x: hidden;
-      overflow-y: auto; /* Izinkan scroll vertikal */
-      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      /* Hapus overflow hidden agar bisa di-scroll */
     }
 
     .box {
       width: 100%; 
-      min-height: 100vh; /* Minimal setinggi layar */
+      min-height: 100vh; /* Menggunakan min-height agar box bisa memanjang */
       cursor: pointer;
       text-align: center;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: center; /* Menjaga teks di tengah saat awal */
       align-items: center;
       padding: 50px 10%; /* Beri ruang atas bawah agar teks tidak mepet */
       box-sizing: border-box;
+      position: relative; /* Berubah dari fixed agar bisa di-scroll */
     }
 
     #text {
@@ -46,6 +47,8 @@
     .align-left {
       text-align: left !important;
       white-space: pre-wrap !important;
+      margin-top: 20px;
+      margin-bottom: 50px;
     }
 
     .typing::after {
@@ -61,17 +64,18 @@
     .hint {
       opacity: 0.4;
       font-size: 11px;
-      position: absolute;
-      bottom: 5%;
+      position: fixed; /* Tetap di bawah selama belum mulai */
+      bottom: 10%;
       width: 100%;
       text-align: center;
+      pointer-events: none;
     }
   </style>
 </head>
 <body onclick="start()">
 
 <div id="container" class="box">
-  <div id="text">hallo kak. maaf ganggu waktu nya yaa. kenalin aku mika vincenzo, utusan nya maul. kemarin maul titip pesan katanya buat kaka, malu katanya. pake malu segala loh, orang biasanya juga malu malu in loh kak haduh, mana suka so kull lagi, kull dari hongkong kali. maaf mika lupa nyampein pesan nya kemarin. mika lagi sibuk kursus masak telor buat ikut master sepp, suka aga gosong dikit sama rasanya nano nano, tapi masih bisa sih. bisa di sembur sepp juna nanti hehe.</div>
+  <div id="text"></div> 
   <div id="hintText" class="hint">tap dimana saja untuk mulai</div>
 </div>
 
@@ -157,6 +161,7 @@ WOPYUUU ❤`;
 
     const textEl = document.getElementById("text");
     const hintEl = document.getElementById("hintText");
+    const containerEl = document.getElementById("container");
     const music = document.getElementById("music");
 
     if (hintEl) hintEl.style.display = "none";
@@ -168,10 +173,12 @@ WOPYUUU ❤`;
           if (music.volume < 0.8) music.volume += 0.05;
           else clearInterval(volIn);
         }, 200);
-    } catch (e) {}
+    } catch (e) {
+        console.log("Musik butuh interaksi user");
+    }
 
     textEl.style.opacity = 0;
-    await sleep(800);
+    await sleep(400);
 
     for (let quote of introTexts) {
       textEl.innerHTML = quote;
@@ -181,36 +188,31 @@ WOPYUUU ❤`;
       await sleep(800);
     }
 
+    // Persiapan untuk pesan panjang
+    containerEl.style.justifyContent = "flex-start"; // Pindah ke atas agar scroll natural
     textEl.innerHTML = "";
     textEl.style.opacity = 1;
     textEl.classList.add("align-left", "typing");
     
-    // Hilangkan justify-center agar teks mulai dari atas saat mengetik panjang
-    document.getElementById("container").style.justifyContent = "flex-start";
-    document.getElementById("container").style.paddingTop = "10vh";
-
     const interval = setInterval(() => {
       textEl.innerHTML += message.charAt(index);
       index++;
-      
-      // Menggunakan scroll perlahan agar tidak lag
-      if (index % 5 === 0) { 
-        window.scrollTo({
-            top: document.body.scrollHeight,
-            behavior: 'smooth'
-        });
-      }
+
+      // AUTO SCROLL: Mengikuti baris teks baru
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
+      });
 
       if (index >= message.length) {
         clearInterval(interval);
+        textEl.classList.remove("typing");
+        // Setelah selesai, user bebas scroll manual dari atas ke bawah
       }
-    }, 90);
+    }, 70); // Dipercepat sedikit agar tidak terlalu lama
   }
 
   function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
-</script>
-
-</body>
-</html>
+</
