@@ -17,34 +17,41 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      overflow-x: hidden;
+      /* Dibuat agar bisa scroll saat teks panjang */
+      overflow-y: auto;
     }
 
     .box {
       width: 100vw; 
-      height: 100vh;
+      min-height: 100vh;
       cursor: pointer;
       text-align: center;
       display: flex;
       flex-direction: column;
+      /* Menjaga posisi teks tetap di tengah secara vertikal di awal */
       justify-content: center;
       align-items: center;
-      padding: 0 7.5%;
+      padding: 50px 7.5%;
       box-sizing: border-box;
     }
 
     #text {
       white-space: normal; 
-      line-height: 1.5; /* Sedikit diperlebar agar spasi ke bawah enak dibaca */
+      line-height: 1.6; 
       font-size: 14px;
       width: 100%;
       max-width: 350px;
       transition: opacity 0.8s ease;
+      word-wrap: break-word;
     }
 
     .align-left {
       text-align: left !important;
+      /* Pre-wrap menjaga spasi dan enter dari variabel message */
       white-space: pre-wrap !important;
+      /* Memastikan kontainer tidak memaksa centering saat teks sudah panjang */
+      margin-top: auto;
+      margin-bottom: auto;
     }
 
     .typing::after {
@@ -61,8 +68,10 @@
       opacity: 0.3;
       margin-top: 50px;
       font-size: 11px;
-      position: absolute;
-      bottom: 10%;
+      position: fixed;
+      bottom: 5%;
+      left: 50%;
+      transform: translateX(-50%);
     }
   </style>
 </head>
@@ -189,9 +198,13 @@ WOPYUUU ❤`
     const interval = setInterval(() => {
       textEl.innerHTML += message.charAt(index);
       index++;
+      
+      // Auto-scroll mengikuti ketikan
       window.scrollTo(0, document.body.scrollHeight);
+      
       if (index >= message.length) {
         clearInterval(interval);
+        textEl.classList.remove("typing");
       }
     }, 90);
   }
@@ -203,12 +216,3 @@ WOPYUUU ❤`
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
